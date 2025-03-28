@@ -1,28 +1,80 @@
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Plot Map</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Prime City Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; }
+        #map { width: 100%; height: 100vh; }
+        .plot-info {
+            position: absolute;
+            background: white;
+            padding: 5px;
+            border: 1px solid black;
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
 <div id="map"></div>
+<div id="plot-info" class="plot-info"></div>
 
-<div id="info-box" class="hidden">
-    <p><strong>Plot No:</strong> <span id="plot-no"></span></p>
-    <p><strong>Area (Sqft):</strong> <span id="plot-area"></span></p>
-    <p><strong>Market Price:</strong> <span id="plot-price"></span></p>
-    <p><strong>Status:</strong> <span id="plot-status"></span></p>
-    <button onclick="editPlot()">Edit</button>
-</div>
+<script>
+    // Initialize the map
+    var map = L.map('map', { crs: L.CRS.Simple, minZoom: -2 });
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="script.js"></script>
+    // Define image bounds (Adjust based on image size)
+    var bounds = [[0, 0], [1000, 1500]]; 
+
+    // Overlay the image (Replace 'image.png' with the correct URL)
+    var imageUrl = 'https://github.com/suji1609/Interactive-app/blob/main/image.png';  
+    L.imageOverlay(imageUrl, bounds).addTo(map);
+    map.fitBounds(bounds);
+
+    // Sample plot data (Replace with actual plot details)
+    var plots = [
+        { id: 1, coords: [200, 300], size: "830 Sq.ft", price: "$10,000", status: "Available" },
+        { id: 2, coords: [400, 500], size: "995 Sq.ft", price: "$12,000", status: "Sold" }
+    ];
+
+    // Function to show plot info on hover
+    function showPlotInfo(e, plot) {
+        var infoBox = document.getElementById("plot-info");
+        infoBox.style.display = "block";
+        infoBox.style.left = (e.originalEvent.pageX + 10) + "px";
+        infoBox.style.top = (e.originalEvent.pageY + 10) + "px";
+        infoBox.innerHTML = `<b>Plot ${plot.id}</b><br>Size: ${plot.size}<br>Price: ${plot.price}<br>Status: ${plot.status}`;
+    }
+
+    // Function to hide plot info
+    function hidePlotInfo() {
+        document.getElementById("plot-info").style.display = "none";
+    }
+
+    // Function to edit plot info on double-click
+    function editPlotInfo(plot) {
+        var newSize = prompt(`Enter new size for Plot ${plot.id}:`, plot.size);
+        var newPrice = prompt(`Enter new price for Plot ${plot.id}:`, plot.price);
+        if (newSize && newPrice) {
+            plot.size = newSize;
+            plot.price = newPrice;
+            alert(`Updated Plot ${plot.id}`);
+        }
+    }
+
+    // Add markers for each plot
+    plots.forEach(plot => {
+        var marker = L.marker(plot.coords, { draggable: false }).addTo(map);
+        marker.on("mouseover", (e) => showPlotInfo(e, plot));
+        marker.on("mouseout", hidePlotInfo);
+        marker.on("dblclick", () => editPlotInfo(plot));
+    });
+
+</script>
 
 </body>
 </html>
