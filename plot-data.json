@@ -1,0 +1,4 @@
+[
+  { "id": 1, "coords": [[300, 500]], "area": "830 Sqft", "price": "$10,000", "status": "Available" },
+  { "id": 2, "coords": [[400, 600]], "area": "995 Sqft", "price": "$12,000", "status": "Sold" }
+]

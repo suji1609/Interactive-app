@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Plot Map</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="info-box" class="hidden">
+    <p><strong>Plot No:</strong> <span id="plot-no"></span></p>
+    <p><strong>Area (Sqft):</strong> <span id="plot-area"></span></p>
+    <p><strong>Market Price:</strong> <span id="plot-price"></span></p>
+    <p><strong>Status:</strong> <span id="plot-status"></span></p>
+    <button onclick="editPlot()">Edit</button>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
